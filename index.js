@@ -27,7 +27,7 @@ app.use(
 
   
 const main = async () => {
-    const port = 5050;
+    const port = 5000;
     await app.listen(port);
     console.log(`Conectado pa http://localhost:${port}/graphiql`);
   }
