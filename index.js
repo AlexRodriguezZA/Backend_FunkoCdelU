@@ -5,6 +5,8 @@ const nodemailer = require("nodemailer");
 const multer = require('multer');
 const path = require('path');
 const Funcion_BBDD = require("./src/BBDD_Function")
+const fs = require('fs-extra');
+
 let dotoenv = require("dotenv");
 
 
@@ -18,6 +20,8 @@ const database = process.env.BBDD;
 const app = express();
 
 /*Mandar correo de confirmación al usuario */
+
+const email_html = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/Email.html', 'utf8');
 async function MandarEmail(email) {
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",
@@ -31,7 +35,7 @@ async function MandarEmail(email) {
     from: "funkocdelu@gmail.com",
     to: email,
     subject: "Gracias por su compra",
-    text: "Su compra fue aprobada",
+    html: email_html,
   };
 
   mailTransporter.sendMail(detalle, (err) => {
