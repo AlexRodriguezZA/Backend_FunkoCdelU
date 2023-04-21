@@ -21,7 +21,10 @@ const app = express();
 
 /*Mandar correo de confirmación al usuario */
 
-const email_html = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/Email.html', 'utf8');
+const email_html = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/email/index.html', 'utf8');
+const logo = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/email/logo.png');
+const Foot = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/email/funkos parte foot.png');
+
 async function MandarEmail(email) {
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",
@@ -36,6 +39,19 @@ async function MandarEmail(email) {
     to: email,
     subject: "Gracias por su compra",
     html: email_html,
+    attachments: [{
+      filename: 'logo.png',
+      content: logo,
+      cid: 'logo'
+    }
+      ,
+    {
+      filename: 'funkos parte foot.png',
+      content: Foot,
+      cid: 'foot'
+    }
+    
+  ]
   };
 
   mailTransporter.sendMail(detalle, (err) => {
