@@ -21,9 +21,15 @@ const app = express();
 
 /*Mandar correo de confirmación al usuario */
 
-const email_html = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/email/index.html', 'utf8');
-const logo = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/email/logo.png');
-const Foot = fs.readFileSync('/home/alex/FunkoCdelU_App/2_Backend/email/funkos parte foot.png');
+
+
+const emailHtmlPath = path.join(__dirname, 'email', 'index.html');
+const email_html = fs.readFileSync(emailHtmlPath, 'utf8');
+
+const logoPath = path.join(__dirname, 'email', 'logo.png');
+const logo = fs.readFileSync(logoPath);
+const filePath = path.join(__dirname, 'email', 'funkos parte foot.png');
+const Foot = fs.readFileSync(filePath);
 
 async function MandarEmail(email) {
   let mailTransporter = nodemailer.createTransport({
@@ -169,7 +175,10 @@ app.post("/notificar", async (req, res) => {
 });
 
 //POdemos servir las imagenes al frontend con esta opcion
-app.use('/public_funko_img', express.static(path.join(CURRENT_DIR, '/2_Backend/uploads')));
+//app.use('/public_funko_img', express.static(path.join(CURRENT_DIR, '/2_Backend/uploads')));
+
+const uploadsPath = path.join(__dirname, 'uploads');
+app.use('/public_funko_img', express.static(uploadsPath));
 
 app.use(
   postgraphile(
