@@ -20,14 +20,14 @@ const database = process.env.BBDD;
 const app = express();
 
 /*Mandar correo de confirmación al usuario */
-
-
-
+//HTML 
 const emailHtmlPath = path.join(__dirname, 'email', 'index.html');
 const email_html = fs.readFileSync(emailHtmlPath, 'utf8');
-
+//LOGO DE FunkoCdelU
 const logoPath = path.join(__dirname, 'email', 'logo.png');
 const logo = fs.readFileSync(logoPath);
+
+//Imagen del footer de FunkoCdelU
 const filePath = path.join(__dirname, 'email', 'funkos parte foot.png');
 const Foot = fs.readFileSync(filePath);
 
@@ -135,12 +135,10 @@ const notificar = async (req, res) => {
   }
 };
 
-const CURRENT_DIR = path.dirname(__dirname);
 const MIMETYPES = ['image/jpeg', 'image/png','image/jpg','image/webp'];
-
 const multerUpload = multer({
     storage: multer.diskStorage({
-        destination: path.join(CURRENT_DIR, '/2_Backend/uploads'),
+        destination:  path.join(__dirname, 'uploads'),
         filename: (req, file, cb) => {
             const fileExtension = path.extname(file.originalname);
             const fileName = file.originalname.split(fileExtension)[0];
@@ -170,13 +168,14 @@ app.post('/upload', multerUpload.single('image'), async (req, res) => {
   }
 });
 
+
+//RUTA QUE MANEJA LA NOTIFICACIÓN DE PAGO DE MERCADO PAGO
 app.post("/notificar", async (req, res) => {
   await notificar(req, res);
 });
 
-//POdemos servir las imagenes al frontend con esta opcion
-//app.use('/public_funko_img', express.static(path.join(CURRENT_DIR, '/2_Backend/uploads')));
 
+//POdemos servir las imagenes al frontend con esta opcion
 const uploadsPath = path.join(__dirname, 'uploads');
 app.use('/public_funko_img', express.static(uploadsPath));
 
